@@ -1,7 +1,7 @@
 # LPP-DECODE
  This program is used to decode Cayenne messages using addAnalogOutput and addDigitalOutput
  
- For use witch Arduino in this environment - Arduino + TTN + Cayenne.
+ For use with Arduino in this environment - Arduino + TTN + Cayenne.
  If you use Cayenne with TTN, you can use channels to send data from cayenne to your nodes.
  
  For sending Digital information you use addDigitalOutput - for example : lpp.addDigitalOutput(80,LED);
