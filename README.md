@@ -9,7 +9,7 @@
  
  LPP-DECODE may be use to decode message from Cayenne.
  
- LPP-DECODE offers 2 functions to read the data sent by Cayenne.
+ LPP-DECODE offers 3 functions to read the data sent by Cayenne.
  
 --- >  int LPP_Digital(int testCanal, int GPIO)
 Description : this function reads on a Cayenne channel and controls a GPIO
@@ -25,6 +25,13 @@ Description : this function reads on a Cayenne channel and controls a GPIO
  Arguments   : testCanal    The Cayenne chanel to read
                
  Returns the value of the analog output. Min 0, max 655.35
+ 
+ --- >  float LPP_Analog1(int testCanal)
+ Description : this function reads on an analog Cayenne channel and returns the value sent
+
+ Arguments   : testCanal    The Cayenne chanel to read
+               
+ Returns the value of the analog output. Min -327,69, max 327,67
  
  For example :
    
