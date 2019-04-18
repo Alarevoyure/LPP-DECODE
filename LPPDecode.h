@@ -36,6 +36,7 @@
 
 int LPP_Digital(int testCanal, int GPIO);
 float LPP_Analog(int testCanal);
+float LPP_Analog1(int testCanal);
 static void LPP_Decode();
 
 

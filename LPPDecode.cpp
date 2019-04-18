@@ -51,7 +51,8 @@ int Valeur;
 * Description : this function reads on an analog Cayenne channel and returns the value sent
 *
 * Arguments   : testCanal    The Cayenne chanel to read
-*               
+* 
+* Returns value from 0 to 655,35              
 *********************************************************************************************/
 float LPP_Analog(int testCanal)
 {
@@ -64,6 +65,34 @@ float Valeur2;
   Valeur1 = LMIC.frame[LMIC.dataBeg + 2];
   Valeur2 = (LMIC.frame[LMIC.dataBeg + 1]*256 + Valeur1)/100;
 
+  //Serial.print("LPP_Analog : "); Serial.print(Canal); Serial.print(" Valeur : "); Serial.println(Valeur2);  	// For debug only
+
+  if (testCanal == Canal) {
+	return Valeur2;
+  } 
+
+}
+
+/********************************************************************************************
+* Description : this function reads on an analog Cayenne channel and returns the value sent
+*
+* Arguments   : testCanal    The Cayenne chanel to read
+* 
+* Returns value from -327,67 to 327,67              
+*********************************************************************************************/
+float LPP_Analog1(int testCanal)
+{
+int Control=0;
+int Canal;
+float Valeur1;
+float Valeur2;
+
+  Canal = LMIC.frame[LMIC.dataBeg];
+  Valeur1 = LMIC.frame[LMIC.dataBeg + 2];
+  Valeur2 = (LMIC.frame[LMIC.dataBeg + 1]*256 + Valeur1)/100;
+  if (Valeur2>327.67) {
+        Valeur2 = Valeur2-655.36;
+  }
   //Serial.print("LPP_Analog : "); Serial.print(Canal); Serial.print(" Valeur : "); Serial.println(Valeur2);  	// For debug only
 
   if (testCanal == Canal) {
