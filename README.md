@@ -19,19 +19,23 @@ Description : this function reads on a Cayenne channel and controls a GPIO
 
  Returns 1 if the function has been enabled
 
---- >  float LPP_Analog(int testCanal)
+--- >  int LPP_Analog(int testCanal, float & Value)
  Description : this function reads on an analog Cayenne channel and returns the value sent
 
  Arguments   : testCanal    The Cayenne chanel to read
+               Value        The variable to modify, from 0 to 655,35 
                
- Returns the value of the analog output. Min 0, max 655.35
+ Returns 1 if the function has been enabled 
+ Returns 0 if the information is not for the good channel  
  
- --- >  float LPP_Analog1(int testCanal)
+ --- >  int LPP_Analog1(int testCanal, float & Value)
  Description : this function reads on an analog Cayenne channel and returns the value sent
 
  Arguments   : testCanal    The Cayenne chanel to read
+               Value        The variable to modify, from -327,67 to 327,67 
                
- Returns the value of the analog output. Min -327,69, max 327,67
+ Returns 1 if the function has been enabled 
+ Returns 0 if the information is not for the good channel  
  
  For example :
    
@@ -44,12 +48,13 @@ Description : this function reads on a Cayenne channel and controls a GPIO
           if(LMIC.dataLen) { // data received in rx slot after tx
               Serial.print(F("Received ")); Serial.print(LMIC.dataLen); Serial.println(F(" bytes of payload"));
               if (LMIC.dataLen == 4) {
-                LPP_Digital(11, 25);  // Read chanel 11 and write on GPIO 25.
-                Serial.print("Valeur sur canal 81 : "); Serial.println(LPP_Analog(81));  //Read Value on chanel 81
+                LPP_Digital(11, 25);
+                float ValueReturn;
+                if (LPP_Analog(81, ValueReturn)){
+                  Serial.print("Valeur sur canal 81 : "); Serial.println(ValueReturn);
+                }
               }
           }
-          os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TimeToWait), do_send);
-          break;
           
  For using this function in arduino, just do the following :
   - Create a directory in your arduino/librairies with name : LPP-Decode
