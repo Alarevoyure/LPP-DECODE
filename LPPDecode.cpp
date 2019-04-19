@@ -19,6 +19,7 @@
 *               GPIO         The GPIO to control
 *
 * Returns 1 if the function has been enabled
+* Returns 0 if the information is not for the good channel
 ******************************************************************************************/
 int LPP_Digital(int testCanal, int GPIO)
 {
@@ -27,20 +28,14 @@ int Canal;
 int Valeur;
 
   Canal = LMIC.frame[LMIC.dataBeg];
-  Valeur = LMIC.frame[LMIC.dataBeg + 2];
-
-  //Serial.print("LPP_Digital : "); Serial.print(Canal); Serial.print(" Valeur : ");  	// For debug only
-
   if (testCanal == Canal) {
-     //Serial.print(Valeur); 								// For debug only						
+     Valeur = LMIC.frame[LMIC.dataBeg + 2];
      if (Valeur == 0) {
           digitalWrite(GPIO, LOW); 
-          //Serial.print(" 0 sur GPIO : "); Serial.println(GPIO); 			// For debug only
           Control = 1;
      }
      if (Valeur == 0x64) { 
           digitalWrite(GPIO, HIGH);
-          //Serial.print(" 1 sur GPIO : "); Serial.println(GPIO);   			// For debug only
           Control = 1;
      }
   }
@@ -51,10 +46,12 @@ int Valeur;
 * Description : this function reads on an analog Cayenne channel and returns the value sent
 *
 * Arguments   : testCanal    The Cayenne chanel to read
+*               Value        The variable to modify, from 0 to 655,35  
 * 
-* Returns value from 0 to 655,35              
+* Returns 1 if the function has been enabled
+* Returns 0 if the information is not for the good channel           
 *********************************************************************************************/
-float LPP_Analog(int testCanal)
+float LPP_Analog(int testCanal, float & Value)
 {
 int Control=0;
 int Canal;
@@ -62,25 +59,25 @@ float Valeur1;
 float Valeur2;
 
   Canal = LMIC.frame[LMIC.dataBeg];
-  Valeur1 = LMIC.frame[LMIC.dataBeg + 2];
-  Valeur2 = (LMIC.frame[LMIC.dataBeg + 1]*256 + Valeur1)/100;
-
-  //Serial.print("LPP_Analog : "); Serial.print(Canal); Serial.print(" Valeur : "); Serial.println(Valeur2);  	// For debug only
-
   if (testCanal == Canal) {
-	return Valeur2;
+      Valeur1 = LMIC.frame[LMIC.dataBeg + 2];
+      Valeur2 = (LMIC.frame[LMIC.dataBeg + 1]*256 + Valeur1)/100;
+      Value = Valeur2;
+      Control=1;
   } 
-
+  return Control;
 }
 
 /********************************************************************************************
 * Description : this function reads on an analog Cayenne channel and returns the value sent
 *
 * Arguments   : testCanal    The Cayenne chanel to read
+*               Value        The variable to modify, from -327,67 to 327,67  
 * 
-* Returns value from -327,67 to 327,67              
+* Returns 1 if the function has been enabled
+* Returns 0 if the information is not for the good channel         
 *********************************************************************************************/
-float LPP_Analog1(int testCanal)
+float LPP_Analog1(int testCanal, float & Value)
 {
 int Control=0;
 int Canal;
@@ -88,17 +85,16 @@ float Valeur1;
 float Valeur2;
 
   Canal = LMIC.frame[LMIC.dataBeg];
-  Valeur1 = LMIC.frame[LMIC.dataBeg + 2];
-  Valeur2 = (LMIC.frame[LMIC.dataBeg + 1]*256 + Valeur1)/100;
-  if (Valeur2>327.67) {
-        Valeur2 = Valeur2-655.36;
-  }
-  //Serial.print("LPP_Analog : "); Serial.print(Canal); Serial.print(" Valeur : "); Serial.println(Valeur2);  	// For debug only
-
   if (testCanal == Canal) {
-	return Valeur2;
+     Valeur1 = LMIC.frame[LMIC.dataBeg + 2];
+     Valeur2 = (LMIC.frame[LMIC.dataBeg + 1]*256 + Valeur1)/100;
+     if (Valeur2>327.67) {
+        Valeur2 = Valeur2-655.36;
+     }
+     Value = Valeur2;
+     Control=1;
   } 
-
+  return Control;
 }
 
 /*/////****************************************************************************************
