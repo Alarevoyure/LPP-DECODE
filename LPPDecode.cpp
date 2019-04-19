@@ -51,7 +51,7 @@ int Valeur;
 * Returns 1 if the function has been enabled
 * Returns 0 if the information is not for the good channel           
 *********************************************************************************************/
-float LPP_Analog(int testCanal, float & Value)
+int LPP_Analog(int testCanal, float & Value)
 {
 int Control=0;
 int Canal;
@@ -77,7 +77,7 @@ float Valeur2;
 * Returns 1 if the function has been enabled
 * Returns 0 if the information is not for the good channel         
 *********************************************************************************************/
-float LPP_Analog1(int testCanal, float & Value)
+int LPP_Analog1(int testCanal, float & Value)
 {
 int Control=0;
 int Canal;
